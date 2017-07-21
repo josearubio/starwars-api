@@ -1,0 +1,8 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+server:
+  port: 9080
+  error:
+    whitelabel: false
