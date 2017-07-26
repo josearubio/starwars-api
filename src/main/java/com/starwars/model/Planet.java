@@ -29,11 +29,6 @@ public class Planet extends ResourceSupport{
     @GeneratedValue
     private Long planetId;
 
-    @CreatedDate
-    private LocalDateTime created;
-    @LastModifiedDate
-    private LocalDateTime edited;
-
     private String name;
     private Integer rotationPeriod;
     private Integer orbitalPeriod;
