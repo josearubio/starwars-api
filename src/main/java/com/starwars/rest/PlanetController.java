@@ -40,6 +40,14 @@ public class PlanetController {
         return new ResponseEntity<>(planets, HttpStatus.OK);
     }
 
+
+    @RequestMapping(method = RequestMethod.GET, path = "/{id}")
+    public ResponseEntity<Planet> findById(@PathVariable Long id) {
+        Planet planet = findPlanet.execute(id);
+
+        return new ResponseEntity<>(planet, HttpStatus.OK);
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Planet> save (@RequestBody Planet planet){
         Planet savedPlanet = savePlanet.execute(planet);
@@ -57,13 +65,6 @@ public class PlanetController {
         return new ResponseEntity<>(updatedPlanet, HttpStatus.OK);
     }
 
-    //film.forEach((Film film) -> {
-    // film.getPlanets().forEach((Planet planet) -> {
-    // ñapa...: if(!
-    //  Link selfLink = ControllerLinkBuilder.linkTo(ControllerLinkBuilder.methodOn(PlanetController.class).findById(planet.getPLanetId())).withSelfRel();
-    // planet.add(selfLink)
-    // })
-    // });
     @RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
     public ResponseEntity<Planet> delete(@PathVariable Long id){
         deletePlanet.execute(id);
