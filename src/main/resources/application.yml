@@ -6,3 +6,7 @@ server:
   port: 9080
   error:
     whitelabel: false
+
+management:
+  security:
+    enabled: false
