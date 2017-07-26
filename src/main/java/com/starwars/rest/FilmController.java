@@ -1,6 +1,7 @@
 package com.starwars.rest;
 
 import com.starwars.model.Film;
+import com.starwars.model.Planet;
 import com.starwars.usecase.film.DeleteFilm;
 import com.starwars.usecase.film.FindAllFilm;
 import com.starwars.usecase.film.FindFilm;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 /**
  * Created by jaro on 7/07/17.
@@ -31,9 +35,16 @@ public class FilmController {
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<Film>> findAll() {
-        List<Film> film = findAllFilm.execute();
+        List<Film> films = findAllFilm.execute();
+        films.forEach((Film f) -> {
+            f.getPlanets().forEach((Planet p) -> {
+                if(!p.hasLink("self")) {
+                    p.add(linkTo(methodOn(PlanetController.class).findById(p.getPlanetId())).withSelfRel());
+                }
+            });
+        });
 
-        return new ResponseEntity<>(film, HttpStatus.OK);
+        return new ResponseEntity<List<Film>>(films, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST)
